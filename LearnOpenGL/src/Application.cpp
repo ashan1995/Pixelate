@@ -6,11 +6,16 @@
 #include <string>
 #include <sstream>
 
+struct ParserOutput {
+    std::string vertexShader;
+    std::string fragmentShader;
+
+};   
 enum class ShaderType {
     NONE=-1,VERTEX=0,FRAGMENT=1
 };
 
-static void ParseShader(const std:: string& filepath) {
+static ParserOutput ParseShader(const std:: string& filepath) {
     std::ifstream stream(filepath);
     std::string line;
     std::stringstream ss[2];
@@ -19,9 +24,9 @@ static void ParseShader(const std:: string& filepath) {
     while (getline(stream,line))
     {
         if (line.find("#shader") != std::string::npos) {
-            if (line.find("#vertex") != std::string::npos)
-                type = ShaderType::VERTEX;
-            else if (line.find("#fragment") != std::string::npos)
+            if (line.find("vertex") != std::string::npos)
+                type = ShaderType::VERTEX; 
+            else if (line.find("fragment") != std::string::npos)
                 type = ShaderType::FRAGMENT;
             
         }
@@ -29,6 +34,8 @@ static void ParseShader(const std:: string& filepath) {
             ss[(int)type] << line << '\n';
         }
     }
+
+    return { ss[0].str(), ss[1].str()};
 }
 
 static unsigned int CompileShader(unsigned int type,const std::string& source) {
@@ -110,7 +117,13 @@ int main(void){
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0,2,GL_FLOAT,GL_FALSE,sizeof(float)*2, 0); //setting up vertex attribute and layout
 
-    unsigned int shader = CreateShader(vertexShader, fragmentShader);
+    ParserOutput sourceOutput = ParseShader("res/shaders/Basic.shader");
+
+    std::cout<< sourceOutput.vertexShader <<std::endl;
+    std::cout<< sourceOutput.fragmentShader <<std::endl;
+
+
+    unsigned int shader = CreateShader(sourceOutput.vertexShader, sourceOutput.fragmentShader);
     glUseProgram(shader);
 
     /* Loop until the user closes the window */
@@ -135,7 +148,7 @@ int main(void){
         /* Poll for and process events */
         glfwPollEvents();
     }
-
+    glDeleteProgram(shader);
     glfwTerminate();
     return 0;
 }
