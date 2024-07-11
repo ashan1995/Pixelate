@@ -161,7 +161,7 @@ int main()
     stbi_image_free(data);
     
     
-    Shader ourShader("shader.vs", "shader.fs");
+    Shader ourShader("shader.vs", "textureshader.fs");
     Shader lightingShader("shader.vs", "lightshader.fs");
     
     glm::vec3 cameraPos(0.0f, 0.0f, 3.0f);
