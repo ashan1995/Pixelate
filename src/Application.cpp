@@ -272,6 +272,8 @@ int main()
         ourShader.setMat4("model", model);
 
         ourShader.setVec3("lightPos", lightPos.x, lightPos.y, lightPos.z);
+        ourShader.setVec3("viewPos", camera.cameraPos.x, camera.cameraPos.y, camera.cameraPos.z);
+
         glBindVertexArray(VAO);
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
