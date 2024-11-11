@@ -1,6 +1,6 @@
-# Triangle
+# Pixelate
 
-Triangle is a project created to explore, experiment, and learn about the graphics pipeline. It focuses on implementing various graphics techniques and features from scratch using modern OpenGL.
+Pixelate is a project created to explore, experiment, and learn about the graphics pipeline. It focuses on implementing various graphics techniques and features from scratch using modern OpenGL.
 
 ## Features
 
